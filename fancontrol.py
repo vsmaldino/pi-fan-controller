@@ -6,10 +6,10 @@ import time
 from gpiozero import OutputDevice
 
 
-ON_THRESHOLD = 65  # (degrees Celsius) Fan kicks on at this temperature.
-OFF_THRESHOLD = 55  # (degress Celsius) Fan shuts off at this temperature.
+ON_THRESHOLD = 60   # (degrees Celsius) Fan kicks on at this temperature.
+OFF_THRESHOLD = 50  # (degress Celsius) Fan shuts off at this temperature.
 SLEEP_INTERVAL = 5  # (seconds) How often we check the core temperature.
-GPIO_PIN = 17  # Which GPIO pin you're using to control the fan.
+GPIO_PIN = 17       # Which GPIO pin you're using to control the fan.
 
 
 def get_temp():
@@ -32,10 +32,52 @@ def get_temp():
 
 
 if __name__ == '__main__':
+    tmpThsOn = os.environ.get('FC_THS_ON')
+    if (tmpThsOn != None):
+        try:
+            tmpThsOn = int(tmpThsOn)
+            ON_THRESHOLD = tmpThsOn
+        except:
+            pass
+
+    tmpThsOff = os.environ.get('FC_THS_OFF')
+    if (tmpThsOff != None):
+        try:
+            tmpThsOff = int(tmpThsOff)
+            OFF_THRESHOLD = tmpThsOff
+        except:
+            pass
+        
+    tmpSleep = os.environ.get('FC_SLEEP')
+    if (tmpSleep != None):
+        try:
+            tmpSleep = int(tmpSleep)
+            SLEEP_INTERVAL = tmpSleep
+        except:
+            pass
+        
+    tmpGpioP = os.environ.get('FC_GPIO_PIN')
+    if (tmpGpioP != None):
+        try:
+            tmpGpioP = int(tmpGpioP)
+            GPIO_PIN = tmpGpioP
+        except:
+            pass
+        
     # Validate the on and off thresholds
     if OFF_THRESHOLD >= ON_THRESHOLD:
         raise RuntimeError('OFF_THRESHOLD must be less than ON_THRESHOLD')
 
+    print("=================================")
+    print("ON_THRESHOLD  : ", end = '')
+    print(ON_THRESHOLD)
+    print("OFF_THRESHOLD : ", end = '')
+    print(OFF_THRESHOLD)
+    print("SLEEP_INTERVAL: ", end = '')
+    print(SLEEP_INTERVAL)
+    print("GPIO_PIN      : ", end = '')
+    print(GPIO_PIN)
+    print("=================================")
     fan = OutputDevice(GPIO_PIN)
 
     while True:
