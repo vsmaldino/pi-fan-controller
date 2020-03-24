@@ -1,0 +1,4 @@
+export FC_THS_ON=55    # default 60 (degrees Celsius) Fan kicks on at this temperature.
+export FC_THS_OFF=45   # default 50 (degress Celsius) Fan shuts off at this temperature.
+export FC_SLEEP=5      # default 6  (seconds) How often we check the core temperature.
+export FC_GPIO_PIN=17  # default 17 Which GPIO pin you're using to control the fan.
