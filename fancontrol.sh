@@ -8,6 +8,12 @@
 # Default-Stop:      0 1 6
 ### END INIT INFO
 
+CONF=/usr/local/etc/fancontrol
+
+if [ -f $CONF ]; then
+   source $CONF
+fi
+
 # Carry out specific functions when asked to by the system
 case "$1" in
   start)
